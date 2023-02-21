@@ -34,7 +34,7 @@ class _CreateOrderState extends State<CreateOrder> {
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: null,
         child: Icon(
-          color: Theme.of(context).accentColor,
+          color: Colors.white,
           Icons.add,
         ),
       ),

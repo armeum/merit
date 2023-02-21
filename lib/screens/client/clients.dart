@@ -43,7 +43,7 @@ class ClientList extends StatelessWidget {
                       topRight: Radius.circular(Dimensions.radius20),
                       bottomRight: Radius.circular(Dimensions.radius20),
                     ),
-                    color: Theme.of(context).accentColor,
+                    color: Colors.white,
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(left: 10),

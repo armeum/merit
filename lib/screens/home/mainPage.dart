@@ -44,7 +44,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                       child: Icon(
                         Icons.search,
-                        color: Theme.of(context).accentColor,
+                        color: Colors.white,
                       ),
                     )
                   ],

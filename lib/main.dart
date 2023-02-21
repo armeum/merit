@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
       title: "Asr Kimya",
       theme: ThemeData(
         primaryColor: Color(0xff1C6EAB),
-        accentColor: Color.fromARGB(255, 255, 255, 255),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Color.fromARGB(255, 255, 255, 255)),
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
           headline1: TextStyle(

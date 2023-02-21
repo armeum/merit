@@ -133,7 +133,7 @@ class _CategoriesState extends State<Categories> {
               margin: EdgeInsets.only(left: 35, right: 35, bottom: 15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).accentColor,
+                  color: Colors.white,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
