@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:merit_app/models/category.dart';
+import 'package:merit_app/order/createOrder.dart';
 import 'package:merit_app/screens/client/createClient.dart';
 
 import 'package:merit_app/widgets/productsList.dart';
@@ -45,7 +46,7 @@ class _CategoriesState extends State<Categories> {
           height: Dimensions.pageView,
           child: PageView.builder(
               controller: _pageController,
-              itemCount: 3,
+              itemCount: 2,
               itemBuilder: (
                 context,
                 position,
@@ -54,7 +55,7 @@ class _CategoriesState extends State<Categories> {
               }),
         ),
         DotsIndicator(
-          dotsCount: 3,
+          dotsCount: 2,
           position: _currentPageValue,
           decorator: DotsDecorator(
             activeColor: Theme.of(context).primaryColor,
@@ -77,12 +78,11 @@ class _CategoriesState extends State<Categories> {
 
   Widget _buildPageItem(int index) {
     final List<Category> categories = [
-      Category(id: '1', title: 'Create Client'),
-      Category(id: '2', title: 'Create Order'),
-      Category(id: '3', title: 'Dashboard'),
+      Category(id: '1', title: 'Create Client', onPressed:  CreateClient()),
+      Category(id: '2', title: 'Create Order', onPressed: const CreateOrder()),
     ];
 
-    Matrix4 matrix = new Matrix4.identity();
+    Matrix4 matrix = Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
       var currTrans = height * (1 - currScale) / 2;
@@ -154,7 +154,8 @@ class _CategoriesState extends State<Categories> {
                 onTap: () => {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CreateClient()),
+                    MaterialPageRoute(
+                        builder: (context) =>  categories[index].onPressed),
                   )
                 },
                 child: Container(

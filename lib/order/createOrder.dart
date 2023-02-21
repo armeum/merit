@@ -69,7 +69,8 @@ class _CreateOrderState extends State<CreateOrder> {
               const SizedBox(
                 height: 20,
               ),
-              const TextField(
+              TextField(
+                controller: amountInput,
                 decoration: InputDecoration(
                   suffixIcon: Icon(Icons.scale),
                   border: OutlineInputBorder(),
@@ -87,6 +88,12 @@ class _CreateOrderState extends State<CreateOrder> {
                   ),
                 ),
                 onPressed: () => {
+                  if (dateInput.text.isEmpty ||
+                      amountInput.text == null){
+                    print('fields should not be empty')
+                  } else{
+
+                  },
                   Navigator.push(
                     context,
                     MaterialPageRoute(

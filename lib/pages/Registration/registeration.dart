@@ -82,27 +82,28 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        IntlPhoneField(
-                          decoration: const InputDecoration(
-                            labelText: 'Phone Number',
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(),
-                            ),
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      IntlPhoneField(
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
                           ),
-                          controller: phoneController,
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                          },
-                          initialCountryCode: 'UZ',
-                          onCountryChanged: (country) {
-                            print('Country changed to: ${country.name}');
-                          },
                         ),
-                      ],
-                    )),
+                        controller: phoneController,
+                        onChanged: (phone) {
+                          print(phone.completeNumber);
+                        },
+                        initialCountryCode: 'UZ',
+                        onCountryChanged: (country) {
+                          print('Country changed to: ${country.name}');
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.all(13),
                   child: Center(
@@ -122,16 +123,16 @@ class _RegistrationState extends State<Registration> {
                         if (usernameController.text == '' ||
                             passwordController.text == "" ||
                             phoneController.text == '') {
-
                           setState(() {
                             message = 'Please fill all fields';
                           });
                         } else {
                           Future<http.Response> createAlbum() async {
-                            final response = await http
-                                .post(Uri.parse('http://localhost:8080/create_user'),
+                            final response = await http.post(
+                                Uri.parse('http://localhost:8080/create_user'),
                                 headers: <String, String>{
-                                  'Content-Type': 'application/json; charset=UTF-8',
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
                                 },
                                 body: jsonEncode(<String, String>{
                                   'username': usernameController.text,
@@ -139,13 +140,16 @@ class _RegistrationState extends State<Registration> {
                                   'phone': phoneController.text,
                                 }));
 
-                              String name  =   jsonDecode(response.body)['username'];
+                            String name = jsonDecode(response.body)['username'];
 
-                            print(  response.body);
-                            if(response.statusCode == 200){
+                            print(response.body);
+                            if (response.statusCode == 200) {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) =>  MainPage(name:name ,)),
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage(
+                                          name: name,
+                                        )),
                               );
                             }
 
@@ -164,13 +168,10 @@ class _RegistrationState extends State<Registration> {
 
                             //  print(await res);
                             // return res;
-
                           }
+
                           createAlbum();
-
                         }
-
-
                       },
                     ))
               ],

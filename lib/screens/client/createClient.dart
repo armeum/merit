@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class CreateClient extends StatefulWidget {
   @override
@@ -7,8 +11,9 @@ class CreateClient extends StatefulWidget {
 }
 
 class _CreateClientState extends State<CreateClient> {
-  final _nameController = TextEditingController();
-  final _regionController = TextEditingController();
+  TextEditingController clientNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  var regionController = "";
 
   var items = [
     "Tashkent",
@@ -26,11 +31,6 @@ class _CreateClientState extends State<CreateClient> {
   ];
 
   String? value;
-
-  void _submitData() {
-    final enteredName = _nameController.text;
-    final selectedRegion = double.parse(_regionController.text);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,14 +92,36 @@ class _CreateClientState extends State<CreateClient> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextField(
-                      controller: _nameController,
-                      onSubmitted: (_) => _submitData(),
+                      controller: clientNameController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Client Name',
                       ),
                     ),
                     SizedBox(height: 30),
+                    Container(
+
+                      child: Column(
+                        children: [
+                          IntlPhoneField(
+                            decoration: const InputDecoration(
+                              labelText: 'Phone Number',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              ),
+                            ),
+                            controller: phoneController,
+                            onChanged: (phone) {
+                              print(phone.completeNumber);
+                            },
+                            initialCountryCode: 'UZ',
+                            onCountryChanged: (country) {
+                              print('Country changed to: ${country.name}');
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -109,17 +131,21 @@ class _CreateClientState extends State<CreateClient> {
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: value,
-                          iconSize: 36,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black,
-                          ),
-                          items: items.map(buildMenuItem).toList(),
-                          onChanged: (value) =>
-                              setState(() => this.value = value),
-                        ),
+                            isExpanded: true,
+                            value: value,
+                            iconSize: 36,
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.black,
+                            ),
+                            items: items.map(buildMenuItem).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                this.value = value;
+
+                                regionController = value as String;
+                              });
+                            }),
                       ),
                     ),
                     SizedBox(height: 30),
@@ -129,7 +155,36 @@ class _CreateClientState extends State<CreateClient> {
                           Theme.of(context).primaryColor,
                         ),
                       ),
-                      onPressed: _submitData,
+                      onPressed: () {
+                        if (clientNameController.text.isEmpty ||
+                            clientNameController.text == null || phoneController.text == '') {
+                          print("tanlang");
+                        } else {
+
+                            Future<http.Response> createClient() async {
+                              final response = await http.post(
+                                  Uri.parse(
+                                      'http://localhost:8080/create_client'),
+                                  headers: <String, String>{
+                                    'Content-Type':
+                                        'application/json; charset=UTF-8',
+                                  },
+                                  body: jsonEncode(<String, String>{
+                                    'name': clientNameController.text,
+                                    'region': regionController,
+                                    'phone': phoneController.text
+                                  }));
+
+
+                              print(response.body);
+
+                              return response;
+                            }
+
+                            createClient();
+
+                        }
+                      },
                       child: Text(
                         'Create Client',
                         style: Theme.of(context).textTheme.bodyText2,
