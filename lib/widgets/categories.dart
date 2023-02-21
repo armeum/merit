@@ -1,11 +1,11 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:merit_app/models/category.dart';
+
 import 'package:merit_app/widgets/productsList.dart';
 import '../utils/dimensions.dart';
 
 class Categories extends StatefulWidget {
-  const Categories({super.key});
-
   @override
   State<Categories> createState() => _CategoriesState();
 }
@@ -75,6 +75,12 @@ class _CategoriesState extends State<Categories> {
   }
 
   Widget _buildPageItem(int index) {
+    final List<Category> categories = [
+      Category(id: '1', title: 'Create Client'),
+      Category(id: '2', title: 'Create Order'),
+      Category(id: '3', title: 'Dashboard'),
+    ];
+
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
@@ -121,37 +127,43 @@ class _CategoriesState extends State<Categories> {
           ),
         ),
         Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            height: Dimensions.pageViewTextContainer,
-            margin: EdgeInsets.only(left: 35, right: 35, bottom: 15),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Theme.of(context).accentColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 8,
-                    offset: Offset(0, 5),
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(-5, 0),
-                  ),
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(5, 0),
-                  )
-                ]),
+            alignment: Alignment.bottomCenter,
             child: Container(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text('Create Client',
-                      style: Theme.of(context).textTheme.headline1),
-                )),
-          ),
-        ),
+              height: Dimensions.pageViewTextContainer,
+              margin: EdgeInsets.only(left: 35, right: 35, bottom: 15),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Theme.of(context).accentColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: Offset(0, 5),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-5, 0),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(5, 0),
+                    )
+                  ]),
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.pushNamed(
+                      context, '/${categories[index].title.toLowerCase()}'),
+                },
+                child: Container(
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 10),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text('${categories[index].title}',
+                          style: Theme.of(context).textTheme.headline1),
+                    )),
+              ),
+            )),
       ]),
     );
   }
