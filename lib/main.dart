@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:merit_app/screens/client/createClient.dart';
+import 'package:merit_app/widgets/productsList.dart';
 import './screens/home/mainPage.dart';
 import 'package:get/get.dart';
+import 'package:merit_app/screens/client/clients.dart';
+import 'package:merit_app/order/createOrder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: CreateClient(),
+      home: MainPage(),
     );
   }
 }

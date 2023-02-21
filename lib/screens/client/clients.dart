@@ -3,18 +3,22 @@ import 'package:merit_app/models/client.dart';
 import 'package:merit_app/utils/dimensions.dart';
 
 class ClientList extends StatelessWidget {
-  final List<Client> clients;
-
-  ClientList(this.clients);
+  final List<Client> clients = [
+    Client(id: '1', name: 'Munisa', region: 'Tashkent'),
+    Client(id: '2', name: 'Ulugbek', region: 'Fergana'),
+    Client(id: '3', name: 'Umida', region: 'Samarkand'),
+    Client(id: '4', name: 'Abdulboriy', region: 'Tashkent'),
+    Client(id: '5', name: 'Sofiya', region: 'Bukhara'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: 10,
-      itemBuilder: (context, index) {
+      itemCount: clients.length,
+      itemBuilder: (BuildContext context, index) {
         return Container(
+          color: Colors.white,
           margin: EdgeInsets.only(
             bottom: 10,
             left: Dimensions.width20,
@@ -48,14 +52,14 @@ class ClientList extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Celluloza',
+                          '${clients[index].name}',
                           style: Theme.of(context).textTheme.headline1,
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          'Q-000001',
+                          '${clients[index].region}',
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ],
