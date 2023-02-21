@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:merit_app/pages/Login/login.dart';
-import 'package:merit_app/pages/Registration/registeration.dart';
 import 'package:merit_app/screens/client/createClient.dart';
 import './screens/home/mainPage.dart';
 import 'package:get/get.dart';
@@ -19,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: "Asr Kimya",
       theme: ThemeData(
         primaryColor: Color(0xff1C6EAB),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Color.fromARGB(255, 255, 255, 255)),
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
           headline1: TextStyle(

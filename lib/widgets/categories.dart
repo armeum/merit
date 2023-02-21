@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:merit_app/models/category.dart';
+import 'package:merit_app/screens/client/createClient.dart';
 
 import 'package:merit_app/widgets/productsList.dart';
 import '../utils/dimensions.dart';
@@ -151,8 +152,10 @@ class _CategoriesState extends State<Categories> {
                   ]),
               child: GestureDetector(
                 onTap: () => {
-                  Navigator.pushNamed(
-                      context, '/${categories[index].title.toLowerCase()}'),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreateClient()),
+                  )
                 },
                 child: Container(
                     padding:

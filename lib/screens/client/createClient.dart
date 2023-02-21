@@ -73,7 +73,7 @@ class _CreateClientState extends State<CreateClient> {
                           ),
                           child: Icon(
                             Icons.search,
-                            color: Theme.of(context).accentColor,
+                            color: Colors.white,
                           ),
                         )
                       ],
