@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "file:///home/armeum/.vscode/extensions/docsmsft.docs-yaml-0.2.9/out/yaml-support/toc.schema.json": "/toc\\.yml/i",
+        "https://json.schemastore.org/pubspec.json": "file:///home/armeum/Desktop/Mobile/merit_app/pubspec.yaml"
+    }
+}
