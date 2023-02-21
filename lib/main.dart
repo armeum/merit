@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:merit_app/pages/Login/login.dart';
 import 'package:merit_app/screens/client/createClient.dart';
 import './screens/home/mainPage.dart';
-import './order/createOrder.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -38,9 +37,13 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.normal,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
+
         ),
       ),
-      home: CreateOrder(),
+      home: const Login(),
     );
   }
 }
+
+
+//hausbaus

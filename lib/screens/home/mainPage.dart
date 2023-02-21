@@ -3,7 +3,9 @@ import '../../widgets/productsList.dart';
 import '../../widgets/categories.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final String name;
+  const MainPage({super.key, required this.name});
+
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -26,7 +28,7 @@ class _MainPageState extends State<MainPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Asr Kimya',
+                  widget.name,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

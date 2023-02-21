@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:merit_app/screens/home/mainPage.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -18,6 +19,7 @@ class _LoginState extends State<Login> {
       shadowColor: Colors.transparent,
       // title: Text("Login", style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 35),),
     );
+    var message ='';
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Scaffold(
@@ -72,6 +74,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
+                Padding(padding: EdgeInsets.all(10), child: Text(message),),
                 TextButton(
                   onPressed: () {
                     //forgot password screen
@@ -87,10 +90,35 @@ class _LoginState extends State<Login> {
                     child: ElevatedButton(
                       child: const Text('Login'),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const MainPage()),
-                        );
+                        Future<http.Response> createAlbum() async {
+                          final response = await http
+                              .post(Uri.parse('http://localhost:8080/sign_in'),
+                              headers: <String, String>{
+                                'Content-Type': 'application/json; charset=UTF-8',
+                              },
+                              body: jsonEncode(<String, String>{
+                                'username': usernameController.text,
+                                'password': passwordController.text,
+                              }));
+
+                          String name  =   jsonDecode(response.body)[0]['username'];
+                          print(  response.body);
+                          if(response.statusCode == 200){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>  MainPage(name:name ,)),
+                            );
+                          }else{
+                             setState(() {
+                               message = 'User does not exist';
+                             });
+                          }
+
+                          return response;
+
+                        }
+                        createAlbum();
+
                       },
                     ))
               ],
