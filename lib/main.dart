@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:merit_app/pages/Login/login.dart';
+import 'package:merit_app/pages/Registration/registeration.dart';
 import 'package:merit_app/screens/client/createClient.dart';
 import './screens/home/mainPage.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
 
         ),
       ),
-      home: const Login(),
+      home: const Registration(),
     );
   }
 }
