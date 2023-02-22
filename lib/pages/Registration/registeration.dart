@@ -63,6 +63,7 @@ class _RegistrationState extends State<Registration> {
                   child: TextField(
                     onChanged: (aa) {
                       usernameController = aa;
+                      print(aa);
                     },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -127,46 +128,44 @@ class _RegistrationState extends State<Registration> {
                         print(usernameController);
                         print(passwordController);
                         print(phoneController);
-                        // if (usernameController == '' ||
-                        //     passwordController == "" ||
-                        //     phoneController == '') {
-                        //   setState(() {
-                        //     message = 'Please fill all fields';
-                        //   });
-                        // } else {
-                        //   Future<http.Response> createAlbum() async {
-                        //     final response = await http.post(
-                        //         Uri.parse('http://localhost:8080/create_user'),
-                        //         headers: <String, String>{
-                        //           'Content-Type':
-                        //           'application/json; charset=UTF-8',
-                        //         },
-                        //         body: jsonEncode(<String, String>{
-                        //           'username': usernameController,
-                        //           'password': passwordController,
-                        //           'phone': phoneController,
-                        //         }));
-                        //
-                        //     String name = jsonDecode(response.body)['username'];
-                        //
-                        //     print(response.body);
-                        //     if (response.statusCode == 200) {
-                        //       Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => MainPage(
-                        //               name: name,
-                        //             )),
-                        //       );
-                        //     }
-                        //
-                        //
-                        //     return response;
-                        //
-                        //   }
-                        //
-                        //   createAlbum();
-                        // }
+                        if (usernameController == '' ||
+                            passwordController == "" ||
+                            phoneController == '') {
+                          setState(() {
+                            message = 'Please fill all fields';
+                          });
+                        } else {
+                          Future<http.Response> createAlbum() async {
+                            final response = await http.post(
+                                Uri.parse('http://192.168.212.79/create_user'),
+                                headers: <String, String>{
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(<String, String>{
+                                  'username': usernameController,
+                                  'password': passwordController,
+                                  'phone': phoneController,
+                                }));
+
+                            String name = jsonDecode(response.body)['username'];
+
+                            print(response.body.toString());
+                            // if (response.statusCode == 200) {
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => MainPage(
+                            //               name: name,
+                            //             )),
+                            //   );
+                            // }
+
+                            return response;
+                          }
+
+                          createAlbum();
+                        }
                       },
                     ))
               ],

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:merit_app/screens/client/clients.dart';
 
 class CreateClient extends StatefulWidget {
   @override
@@ -11,8 +12,9 @@ class CreateClient extends StatefulWidget {
 }
 
 class _CreateClientState extends State<CreateClient> {
-  TextEditingController clientNameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  var clientNameController = '';
+  var phoneController = '';
+
   var regionController = "";
 
   var items = [
@@ -92,7 +94,9 @@ class _CreateClientState extends State<CreateClient> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextField(
-                      controller: clientNameController,
+                      onChanged: (value) => {
+                        clientNameController = value,
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Client Name',
@@ -100,7 +104,6 @@ class _CreateClientState extends State<CreateClient> {
                     ),
                     SizedBox(height: 30),
                     Container(
-
                       child: Column(
                         children: [
                           IntlPhoneField(
@@ -110,9 +113,8 @@ class _CreateClientState extends State<CreateClient> {
                                 borderSide: BorderSide(),
                               ),
                             ),
-                            controller: phoneController,
-                            onChanged: (phone) {
-                              print(phone.completeNumber);
+                            onChanged: (value) => {
+                              phoneController = value as String,
                             },
                             initialCountryCode: 'UZ',
                             onCountryChanged: (country) {
@@ -156,33 +158,40 @@ class _CreateClientState extends State<CreateClient> {
                         ),
                       ),
                       onPressed: () {
-                        if (clientNameController.text.isEmpty ||
-                            clientNameController.text == null || phoneController.text == '') {
+                        if (clientNameController.isEmpty ||
+                            clientNameController.isEmpty ||
+                            phoneController == '') {
                           print("tanlang");
                         } else {
+                          Future<http.Response> createClient() async {
+                            final response = await http.post(
+                                Uri.parse(
+                                    'http://127.0.0.1:8000/create_client'),
+                                headers: <String, String>{
+                                  'Accept': 'application/json',
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(<String, String>{
+                                  'name': clientNameController,
+                                  'region': regionController,
+                                  'phone': phoneController
+                                }));
 
-                            Future<http.Response> createClient() async {
-                              final response = await http.post(
-                                  Uri.parse(
-                                      'http://localhost:8080/create_client'),
-                                  headers: <String, String>{
-                                    'Content-Type':
-                                        'application/json; charset=UTF-8',
-                                  },
-                                  body: jsonEncode(<String, String>{
-                                    'name': clientNameController.text,
-                                    'region': regionController,
-                                    'phone': phoneController.text
-                                  }));
-
-
-                              print(response.body);
-
-                              return response;
+                            print(response.body);
+                            if (response.statusCode == 200) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ClientList(),
+                                ),
+                              );
                             }
 
-                            createClient();
+                            return response;
+                          }
 
+                          createClient();
                         }
                       },
                       child: Text(

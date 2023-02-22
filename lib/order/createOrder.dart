@@ -13,36 +13,32 @@ class CreateOrder extends StatefulWidget {
 }
 
 class _CreateOrderState extends State<CreateOrder> {
-  TextEditingController amountInput = TextEditingController();
-  TextEditingController dateInput = TextEditingController();
-
-  @override
-  void initState() {
-    dateInput.text = ""; //set the initial value of text field
-    super.initState();
-  }
+  String message = "";
+  var amountController = '';
+  var dateController = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text("Create Order"),
+        title: const Text("Create Order"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 130, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 130, left: 20, right: 20),
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               TextField(
-                controller: dateInput,
-                //editing controller of this TextField
+                onChanged: (value) => {
+                  dateController = value,
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: "Enter Date", //label text of field
-                  suffixIcon: Icon(Icons.calendar_today), //icon of text field
+                  labelText: "Enter Date",
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
                 readOnly: true,
 
@@ -63,7 +59,7 @@ class _CreateOrderState extends State<CreateOrder> {
                     print(
                         formattedDate); //formatted date output using intl package =>  2021-03-16
                     setState(() {
-                      dateInput.text =
+                      dateController =
                           formattedDate; //set output date to TextField value.
                     });
                   } else {}
@@ -73,8 +69,10 @@ class _CreateOrderState extends State<CreateOrder> {
                 height: 20,
               ),
               TextField(
-                controller: amountInput,
-                decoration: InputDecoration(
+                onChanged: (value) => {
+                  amountController = value,
+                },
+                decoration: const InputDecoration(
                   suffixIcon: Icon(Icons.scale),
                   border: OutlineInputBorder(),
                   labelText: 'Amount',
@@ -91,21 +89,33 @@ class _CreateOrderState extends State<CreateOrder> {
                   ),
                 ),
                 onPressed: () {
-                  if (amountInput.text.isEmpty || dateInput.text == null) {
+                  if (amountController.isEmpty || dateController.isEmpty) {
+                    setState(() {
+                      message = "Please fill all the fields";
+                    });
                     print("tanlang");
                   } else {
                     Future<http.Response> createOrder() async {
                       final response = await http.post(
-                          Uri.parse('https://localhost:8080/create_order'),
+                          Uri.parse('http://127.0.0.1:8000/create_order'),
                           headers: <String, String>{
+                            'Accept': 'application/json',
                             'Content-Type': 'application/json; charset=UTF-8',
                           },
                           body: jsonEncode(<String, String>{
-                            'amount': amountInput.text,
-                            'date': dateInput.text,
+                            'amount': amountController,
+                            'date': dateController,
                           }));
 
                       print(response.body);
+                      if (response.statusCode == 200) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OrdersList(),
+                          ),
+                        );
+                      }
                       return response;
                     }
 
