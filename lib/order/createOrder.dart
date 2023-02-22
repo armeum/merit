@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:merit_app/order/ordersList.dart';
 
 class CreateOrder extends StatefulWidget {
@@ -87,19 +90,27 @@ class _CreateOrderState extends State<CreateOrder> {
                     Theme.of(context).primaryColor,
                   ),
                 ),
-                onPressed: () => {
-                  if (dateInput.text.isEmpty ||
-                      amountInput.text == null){
-                    print('fields should not be empty')
-                  } else{
+                onPressed: () {
+                  if (amountInput.text.isEmpty || dateInput.text == null) {
+                    print("tanlang");
+                  } else {
+                    Future<http.Response> createOrder() async {
+                      final response = await http.post(
+                          Uri.parse('https://localhost:8080/create_order'),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json; charset=UTF-8',
+                          },
+                          body: jsonEncode(<String, String>{
+                            'amount': amountInput.text,
+                            'date': dateInput.text,
+                          }));
 
-                  },
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrdersList(),
-                    ),
-                  )
+                      print(response.body);
+                      return response;
+                    }
+
+                    createOrder();
+                  }
                 },
                 child: Text(
                   'Order',
