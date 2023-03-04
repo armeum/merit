@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
+import 'package:merit_app/order/createOrder.dart';
 import 'package:merit_app/pages/Login/login.dart';
 import 'package:merit_app/pages/Registration/registeration.dart';
 import 'package:merit_app/screens/client/createClient.dart';
@@ -18,12 +19,14 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Asr Kimya",
+
       theme: ThemeData(
         primaryColor: Color(0xff1C6EAB),
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: Color.fromARGB(255, 255, 255, 255)),
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
+
           headline1: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -40,9 +43,10 @@ class MyApp extends StatelessWidget {
             color: Color.fromARGB(255, 255, 255, 255),
           ),
 
+
         ),
       ),
-      home: const Registration(),
+      home:   CreateOrder(),
     );
   }
 }

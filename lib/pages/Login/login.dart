@@ -12,16 +12,19 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  var message ='';
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+
     var appBar = AppBar(
       backgroundColor: Colors.white,
       shadowColor: Colors.transparent,
       // title: Text("Login", style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 35),),
     );
-    var message ='';
-    TextEditingController usernameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,

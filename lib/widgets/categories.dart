@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:merit_app/models/category.dart';
 import 'package:merit_app/order/createOrder.dart';
 import 'package:merit_app/screens/client/createClient.dart';
+import 'package:merit_app/widgets/constants.dart';
 
 import 'package:merit_app/widgets/productsList.dart';
 import '../utils/dimensions.dart';
+
+
 
 class Categories extends StatefulWidget {
   @override
@@ -17,7 +20,11 @@ class _CategoriesState extends State<Categories> {
     initialPage: 0,
     viewportFraction: 0.8,
   );
-
+ List<Widget> icon_list = [
+   Icon(Icons.person, size: 80,color: Colors.white,),
+   Icon(Icons.shopping_cart, size: 80,color: Colors.white,),
+   Icon(Icons.bar_chart_rounded, size: 88,color: Colors.white,)
+ ];
   var _currentPageValue = 0.0;
   double height = Dimensions.pageViewContainer;
   double _scaleFactor = 0.8;
@@ -46,7 +53,7 @@ class _CategoriesState extends State<Categories> {
           height: Dimensions.pageView,
           child: PageView.builder(
               controller: _pageController,
-              itemCount: 2,
+              itemCount: 3,
               itemBuilder: (
                 context,
                 position,
@@ -55,7 +62,7 @@ class _CategoriesState extends State<Categories> {
               }),
         ),
         DotsIndicator(
-          dotsCount: 2,
+          dotsCount: 3,
           position: _currentPageValue,
           decorator: DotsDecorator(
             activeColor: Theme.of(context).primaryColor,
@@ -66,11 +73,16 @@ class _CategoriesState extends State<Categories> {
           ),
         ),
         SizedBox(
-          height: 30,
+          height: 20,
         ),
         Container(
           height: 700,
-          child: ProductList(),
+          child: ProductList(
+            name: 'hhhh',
+            code: 'qqqq',
+            length: elements.length,
+            data: elements,
+          ),
         )
       ],
     );
@@ -80,6 +92,7 @@ class _CategoriesState extends State<Categories> {
     final List<Category> categories = [
       Category(id: '1', title: 'Create Client', onPressed:  CreateClient()),
       Category(id: '2', title: 'Create Order', onPressed: const CreateOrder()),
+      Category(id: '3', title: 'Dashboard', onPressed: const CreateOrder()),
     ];
 
     Matrix4 matrix = Matrix4.identity();
@@ -119,8 +132,8 @@ class _CategoriesState extends State<Categories> {
         Container(
           height: height,
           margin: const EdgeInsets.only(
-            left: 10,
-            right: 10,
+            left: 20,
+            right: 20,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
@@ -131,7 +144,7 @@ class _CategoriesState extends State<Categories> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: Dimensions.pageViewTextContainer,
-              margin: EdgeInsets.only(left: 35, right: 35, bottom: 15),
+              margin: EdgeInsets.only(left: 45, right: 45, bottom: 15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.white,
@@ -168,6 +181,13 @@ class _CategoriesState extends State<Categories> {
                     )),
               ),
             )),
+        Align(
+          alignment: AlignmentDirectional.topEnd,
+          child: Center(child: Padding(
+            padding: const EdgeInsets.only(bottom: 90.0),
+            child: icon_list[index] ,
+          ),),
+        )
       ]),
     );
   }

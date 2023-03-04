@@ -1,6 +1,12 @@
+import 'dart:convert' as convert;
+
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:merit_app/order/ordersList.dart';
+import 'package:merit_app/utils/url.dart';
+import 'package:merit_app/widgets/constants.dart';
 
 class CreateOrder extends StatefulWidget {
   const CreateOrder({super.key});
@@ -13,10 +19,38 @@ class _CreateOrderState extends State<CreateOrder> {
   TextEditingController amountInput = TextEditingController();
   TextEditingController dateInput = TextEditingController();
 
+  var clientList = [];
+
+
+  late List<dynamic> items = [];
+  late List<dynamic> products = [];
+  String? selectedValue;
+  String? productValue;
+
+  void fetchData() async {
+    var response = await http.get(Uri.parse('$platformUrl/all_clients'));
+    var arr = convert.jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      for (var i = 0; i < arr.length; i++) {
+        items.add(arr[i]['name']);
+      }
+    }
+  }
+
+  void getProducts() {
+    var productList = elements;
+    for (var i = 0; i < productList.length; i++) {
+      products.add(productList[i]['code']);
+    }
+  }
+
   @override
   void initState() {
     dateInput.text = ""; //set the initial value of text field
     super.initState();
+    fetchData();
+    getProducts();
   }
 
   @override
@@ -53,12 +87,10 @@ class _CreateOrderState extends State<CreateOrder> {
                       lastDate: DateTime(2100));
 
                   if (pickedDate != null) {
-                    print(
-                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                    //pickedDate output format => 2021-03-10 00:00:00.000
                     String? formattedDate =
                         DateFormat('dd/MM/yyyy').format(pickedDate);
-                    print(
-                        formattedDate); //formatted date output using intl package =>  2021-03-16
+                    //formatted date output using intl package =>  2021-03-16
                     setState(() {
                       dateInput.text =
                           formattedDate; //set output date to TextField value.
@@ -81,31 +113,235 @@ class _CreateOrderState extends State<CreateOrder> {
               const SizedBox(
                 height: 20,
               ),
+
+              Center(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    isExpanded: true,
+                    hint: Row(
+                      children: const [
+                        Icon(
+                          Icons.list,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Clients',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    items: items
+                        .map((item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ))
+                        .toList(),
+                    value: selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value as String;
+                      });
+                      print(selectedValue);
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      height: 50,
+                      padding: const EdgeInsets.only(left: 14, right: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      elevation: 2,
+                    ),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                      ),
+                      iconSize: 14,
+                      iconEnabledColor: Colors.white,
+                      iconDisabledColor: Colors.grey,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 200,
+                      // width: 200,
+                      padding: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      elevation: 8,
+                      // offset: const Offset(-20, 0),
+                      scrollbarTheme: ScrollbarThemeData(
+                        radius: const Radius.circular(40),
+                        thickness: MaterialStateProperty.all<double>(6),
+                        thumbVisibility: MaterialStateProperty.all<bool>(true),
+                      ),
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                      padding: EdgeInsets.only(left: 14, right: 14),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2(
+                    isExpanded: true,
+                    hint: Row(
+                      children: const [
+                        Icon(
+                          Icons.list,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Products',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    items: products
+                        .map((product) => DropdownMenuItem<String>(
+                              value: product,
+                              child: Text(
+                                product,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ))
+                        .toList(),
+                    value: productValue,
+                    onChanged: (value) {
+                      setState(() {
+                        productValue = value as String;
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      height: 50,
+                      padding: const EdgeInsets.only(left: 14, right: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: Colors.black26,
+                        ),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      elevation: 2,
+                    ),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(
+                        Icons.arrow_forward_ios_outlined,
+                      ),
+                      iconSize: 14,
+                      iconEnabledColor: Colors.white,
+                      iconDisabledColor: Colors.grey,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 200,
+                      // width: 200,
+                      padding: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      elevation: 8,
+                      // offset: const Offset(-20, 0),
+                      scrollbarTheme: ScrollbarThemeData(
+                        radius: const Radius.circular(40),
+                        thickness: MaterialStateProperty.all<double>(6),
+                        thumbVisibility: MaterialStateProperty.all<bool>(true),
+                      ),
+                    ),
+                    menuItemStyleData: const MenuItemStyleData(
+                      height: 40,
+                      padding: EdgeInsets.only(left: 14, right: 14),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor,
                   ),
                 ),
-                onPressed: () => {
-                  if (dateInput.text.isEmpty ||
-                      amountInput.text == null){
-                    print('fields should not be empty')
-                  } else{
+                onPressed: () {
+                  if (amountInput.text.isEmpty || dateInput.text.isEmpty) {
+                  } else {
+                    Future<http.Response> createOrder() async {
+                      final response =
+                      await http.post(Uri.parse('$platformUrl/add_order'),
+                          headers: <String, String>{
+                            'Content-Type':
+                            'application/json; charset=UTF-8',
+                          },
+                          body: convert.jsonEncode(<String, String>{
+                            'amount': amountInput.text,
+                            'deadline': dateInput.text,
+                            'productCode': productValue as String,
+                            'clientName': selectedValue as String,
+                          }));
+                      print(response.body);
 
-                  },
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => OrdersList(),
-                    ),
-                  )
+                      if (response.statusCode == 200 ||
+                          response.statusCode == 201) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => OrdersList()),
+                        );
+                      }
+                      return response;
+                    }
+                    createOrder();
+                  }
                 },
                 child: Text(
                   'Order',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
-              )
+              ),
             ],
           ),
         ),

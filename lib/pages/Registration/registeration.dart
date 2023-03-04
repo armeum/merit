@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:avoid_keyboard/avoid_keyboard.dart';
+import 'package:merit_app/utils/url.dart';
 import '../../screens/home/mainPage.dart';
+import '../Login/login.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -20,7 +22,9 @@ class _RegistrationState extends State<Registration> {
   String message = '';
   bool isVisible = false;
   final _formKey = GlobalKey<FormState>();
-
+  var usernameController = '';
+  var passwordController = '';
+  var phoneController = '';
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
@@ -28,9 +32,7 @@ class _RegistrationState extends State<Registration> {
       shadowColor: Colors.transparent,
       // title: Text("Login", style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 35),),
     );
-    var usernameController = '';
-    var passwordController = '';
-    var phoneController = '';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar,
@@ -127,46 +129,40 @@ class _RegistrationState extends State<Registration> {
                         print(usernameController);
                         print(passwordController);
                         print(phoneController);
-                        // if (usernameController == '' ||
-                        //     passwordController == "" ||
-                        //     phoneController == '') {
-                        //   setState(() {
-                        //     message = 'Please fill all fields';
-                        //   });
-                        // } else {
-                        //   Future<http.Response> createAlbum() async {
-                        //     final response = await http.post(
-                        //         Uri.parse('http://localhost:8080/create_user'),
-                        //         headers: <String, String>{
-                        //           'Content-Type':
-                        //           'application/json; charset=UTF-8',
-                        //         },
-                        //         body: jsonEncode(<String, String>{
-                        //           'username': usernameController,
-                        //           'password': passwordController,
-                        //           'phone': phoneController,
-                        //         }));
-                        //
-                        //     String name = jsonDecode(response.body)['username'];
-                        //
-                        //     print(response.body);
-                        //     if (response.statusCode == 200) {
-                        //       Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => MainPage(
-                        //               name: name,
-                        //             )),
-                        //       );
-                        //     }
-                        //
-                        //
-                        //     return response;
-                        //
-                        //   }
-                        //
-                        //   createAlbum();
-                        // }
+                        if (usernameController == '' ||
+                            passwordController == "" ||
+                            phoneController == '') {
+                          setState(() {
+                            message = 'Please fill all fields';
+                          });
+                        } else {
+                          Future<http.Response> createAlbum() async {
+                            final response = await http.post(
+                                Uri.parse('$platformUrl/create_user'),
+                                headers: <String, String>{
+                                  "Accept": 'application/json',
+                                  'Content-Type':
+                                  'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(<String, String>{
+                                  'name': usernameController,
+                                  'password': passwordController,
+                                  'phone': phoneController,
+                                }));
+
+                            print(response.body);
+                            print(response.statusCode);
+                            if (response.statusCode == 200) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>MainPage(name: usernameController) ),
+                              );
+                            }
+                            return response;
+                          }
+                          createAlbum();
+                        }
                       },
                     ))
               ],
