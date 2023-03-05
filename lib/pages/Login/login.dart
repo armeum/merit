@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:merit_app/screens/home/mainPage.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:merit_app/screens/home/main_Page.dart';
+
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -12,17 +12,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-  var message ='';
+  var message = '';
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-
     var appBar = AppBar(
       backgroundColor: Colors.white,
       shadowColor: Colors.transparent,
-      // title: Text("Login", style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 35),),
     );
 
     return Scaffold(
@@ -43,13 +41,13 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(30),
                   child: Center(
                     child: Text(
                       'Sign In',
                       style: Theme.of(context)
                           .textTheme
-                          .headline1
+                          .displayLarge
                           ?.copyWith(fontSize: 18),
                     ),
                   ),
@@ -77,11 +75,12 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(10), child: Text(message),),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(message),
+                ),
                 TextButton(
-                  onPressed: () {
-                    //forgot password screen
-                  },
+                  onPressed: () {},
                   child: const Text(
                     'Forgot Password',
                   ),
@@ -94,34 +93,37 @@ class _LoginState extends State<Login> {
                       child: const Text('Login'),
                       onPressed: () {
                         Future<http.Response> createAlbum() async {
-                          final response = await http
-                              .post(Uri.parse('http://localhost:8080/sign_in'),
+                          final response = await http.post(
+                              Uri.parse('http://localhost:8080/sign_in'),
                               headers: <String, String>{
-                                'Content-Type': 'application/json; charset=UTF-8',
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
                               },
                               body: jsonEncode(<String, String>{
                                 'username': usernameController.text,
                                 'password': passwordController.text,
                               }));
 
-                          String name  =   jsonDecode(response.body)[0]['username'];
-                          print(  response.body);
-                          if(response.statusCode == 200){
+                          String name =
+                              jsonDecode(response.body)[0]['username'];
+                          if (response.statusCode == 200) {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  MainPage(name:name ,)),
+                              MaterialPageRoute(
+                                  builder: (context) => MainPage(
+                                        name: name,
+                                      )),
                             );
-                          }else{
-                             setState(() {
-                               message = 'User does not exist';
-                             });
+                          } else {
+                            setState(() {
+                              message = 'User does not exist';
+                            });
                           }
 
                           return response;
-
                         }
-                        createAlbum();
 
+                        createAlbum();
                       },
                     ))
               ],

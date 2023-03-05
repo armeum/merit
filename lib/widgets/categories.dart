@@ -4,30 +4,42 @@ import 'package:merit_app/models/category.dart';
 import 'package:merit_app/order/createOrder.dart';
 import 'package:merit_app/screens/client/createClient.dart';
 import 'package:merit_app/widgets/constants.dart';
-
 import 'package:merit_app/widgets/productsList.dart';
+
 import '../utils/dimensions.dart';
 
-
-
 class Categories extends StatefulWidget {
+  const Categories({super.key});
+
   @override
   State<Categories> createState() => _CategoriesState();
 }
 
 class _CategoriesState extends State<Categories> {
-  PageController _pageController = PageController(
+  final PageController _pageController = PageController(
     initialPage: 0,
     viewportFraction: 0.8,
   );
- List<Widget> icon_list = [
-   Icon(Icons.person, size: 80,color: Colors.white,),
-   Icon(Icons.shopping_cart, size: 80,color: Colors.white,),
-   Icon(Icons.bar_chart_rounded, size: 88,color: Colors.white,)
- ];
+  List<Widget> iconList = [
+    const Icon(
+      Icons.person,
+      size: 80,
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.shopping_cart,
+      size: 80,
+      color: Colors.white,
+    ),
+    const Icon(
+      Icons.bar_chart_rounded,
+      size: 88,
+      color: Colors.white,
+    )
+  ];
   var _currentPageValue = 0.0;
   double height = Dimensions.pageViewContainer;
-  double _scaleFactor = 0.8;
+  final double _scaleFactor = 0.8;
 
   @override
   void initState() {
@@ -49,7 +61,7 @@ class _CategoriesState extends State<Categories> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: Dimensions.pageView,
           child: PageView.builder(
               controller: _pageController,
@@ -72,10 +84,10 @@ class _CategoriesState extends State<Categories> {
                 borderRadius: BorderRadius.circular(5.0)),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        Container(
+        SizedBox(
           height: 700,
           child: ProductList(
             name: 'hhhh',
@@ -90,7 +102,8 @@ class _CategoriesState extends State<Categories> {
 
   Widget _buildPageItem(int index) {
     final List<Category> categories = [
-      Category(id: '1', title: 'Create Client', onPressed:  CreateClient()),
+      Category(
+          id: '1', title: 'Create Client', onPressed: const CreateClient()),
       Category(id: '2', title: 'Create Order', onPressed: const CreateOrder()),
       Category(id: '3', title: 'Dashboard', onPressed: const CreateOrder()),
     ];
@@ -144,7 +157,7 @@ class _CategoriesState extends State<Categories> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: Dimensions.pageViewTextContainer,
-              margin: EdgeInsets.only(left: 45, right: 45, bottom: 15),
+              margin: const EdgeInsets.only(left: 45, right: 45, bottom: 15),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.white,
@@ -152,13 +165,13 @@ class _CategoriesState extends State<Categories> {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.2),
                       blurRadius: 8,
-                      offset: Offset(0, 5),
+                      offset: const Offset(0, 5),
                     ),
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.white,
                       offset: Offset(-5, 0),
                     ),
-                    BoxShadow(
+                    const BoxShadow(
                       color: Colors.white,
                       offset: Offset(5, 0),
                     )
@@ -168,7 +181,7 @@ class _CategoriesState extends State<Categories> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  categories[index].onPressed),
+                        builder: (context) => categories[index].onPressed),
                   )
                 },
                 child: Container(
@@ -176,17 +189,19 @@ class _CategoriesState extends State<Categories> {
                         const EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text('${categories[index].title}',
-                          style: Theme.of(context).textTheme.headline1),
+                      child: Text(categories[index].title,
+                          style: Theme.of(context).textTheme.displayLarge),
                     )),
               ),
             )),
         Align(
           alignment: AlignmentDirectional.topEnd,
-          child: Center(child: Padding(
-            padding: const EdgeInsets.only(bottom: 90.0),
-            child: icon_list[index] ,
-          ),),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 90.0),
+              child: iconList[index],
+            ),
+          ),
         )
       ]),
     );

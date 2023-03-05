@@ -1,14 +1,12 @@
 import 'dart:convert' as convert;
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:merit_app/models/order.dart';
 import 'package:merit_app/utils/dimensions.dart';
 import 'package:http/http.dart' as http;
 import 'package:merit_app/utils/url.dart';
 
-import '../screens/Album.dart';
-
 class OrdersList extends StatefulWidget {
+  const OrdersList({super.key});
+
   @override
   State<OrdersList> createState() => _OrdersListState();
 }
@@ -16,28 +14,20 @@ class OrdersList extends StatefulWidget {
 class _OrdersListState extends State<OrdersList> {
   var orderList = [];
 
-  String texttt = '';
 
-  void FetchData() async {
+  void fetchData() async {
     var response = await http.get(Uri.parse('$platformUrl/all_orders'));
     if (response.statusCode == 200) {
       setState(() {
         orderList = convert.jsonDecode(response.body);
-      });
-      print(orderList);
-    } else {
-      print(orderList);
-      setState(() {
-        // orderList = [];
       });
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    FetchData();
+    fetchData();
   }
 
   @override
@@ -45,8 +35,8 @@ class _OrdersListState extends State<OrdersList> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          TextButton(onPressed: () => setState(() {}), child: Text("press me")),
-          TextButton(onPressed: () => setState(() {}), child: Text("Me also")),
+          TextButton(onPressed: () => setState(() {}), child: const Text("press me")),
+          TextButton(onPressed: () => setState(() {}), child: const Text("Me also")),
         ],
       ),
       body: Container(
@@ -56,7 +46,7 @@ class _OrdersListState extends State<OrdersList> {
                     color: Colors.blue,
                   )
                 : ListView.builder(
-              padding: EdgeInsets.only(top: 20, bottom: 10),
+              padding: const EdgeInsets.only(top: 20, bottom: 10),
                     itemCount: orderList.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -77,7 +67,7 @@ class _OrdersListState extends State<OrdersList> {
                                 color: Theme.of(context).primaryColor,
                               ),
                               child: const Center(
-                                child: const Icon(
+                                child: Icon(
                                   Icons.shopping_cart,
                                   size: 40,
                                   color: Colors.white,
@@ -98,7 +88,7 @@ class _OrdersListState extends State<OrdersList> {
                                   color: Colors.white,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 10),
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -108,16 +98,16 @@ class _OrdersListState extends State<OrdersList> {
                                         orderList[index]['amount'].toString(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline1,
+                                            .displayLarge,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 5,
                                       ),
                                       Text(
                                         orderList[index]['deadline'].toString(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline6,
+                                            .titleLarge,
                                       ),
                                     ],
                                   ),
@@ -135,14 +125,14 @@ class _OrdersListState extends State<OrdersList> {
 }
 
 class DynamicWidget extends StatelessWidget {
+  const DynamicWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Enter your username',
-        ),
+    return const TextField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Enter your username',
       ),
     );
   }

@@ -1,10 +1,5 @@
  import 'package:flutter/material.dart';
 import 'package:merit_app/order/createOrder.dart';
-import 'package:merit_app/pages/Login/login.dart';
-import 'package:merit_app/pages/Registration/registeration.dart';
-import 'package:merit_app/screens/client/createClient.dart';
-
-import './screens/home/mainPage.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -18,26 +13,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Asr Kimya",
+      title: "Asr Kim-ya",
 
       theme: ThemeData(
-        primaryColor: Color(0xff1C6EAB),
+        primaryColor: const Color(0xff1C6EAB),
         colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: Color.fromARGB(255, 255, 255, 255)),
+            .copyWith(secondary: const Color.fromARGB(255, 255, 255, 255)),
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
 
-          headline1: TextStyle(
+          displayLarge: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Color(0xff1C6EAB),
           ),
-          headline6: TextStyle(
+          titleLarge: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.normal,
             color: Color.fromARGB(255, 89, 88, 88),
           ),
-          bodyText2: TextStyle(
+          bodyMedium: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.normal,
             color: Color.fromARGB(255, 255, 255, 255),
@@ -46,10 +41,7 @@ class MyApp extends StatelessWidget {
 
         ),
       ),
-      home:   CreateOrder(),
+      home:   const CreateOrder(),
     );
   }
 }
-
-
-//hausbaus

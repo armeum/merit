@@ -1,15 +1,11 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:avoid_keyboard/avoid_keyboard.dart';
 import 'package:merit_app/utils/url.dart';
-import '../../screens/home/mainPage.dart';
-import '../Login/login.dart';
+
+import '../../screens/home/main_Page.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -21,16 +17,15 @@ class Registration extends StatefulWidget {
 class _RegistrationState extends State<Registration> {
   String message = '';
   bool isVisible = false;
-  final _formKey = GlobalKey<FormState>();
   var usernameController = '';
   var passwordController = '';
   var phoneController = '';
+
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
       backgroundColor: Colors.white,
       shadowColor: Colors.transparent,
-      // title: Text("Login", style: Theme.of(context).textTheme.headline1?.copyWith(fontSize: 35),),
     );
 
     return Scaffold(
@@ -55,7 +50,7 @@ class _RegistrationState extends State<Registration> {
                       'Sign In',
                       style: Theme.of(context)
                           .textTheme
-                          .headline1
+                          .displayLarge
                           ?.copyWith(fontSize: 18),
                     ),
                   ),
@@ -80,7 +75,6 @@ class _RegistrationState extends State<Registration> {
                     autocorrect: false,
                     onChanged: (value) {
                       passwordController = value;
-                      print(value);
                     },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -103,22 +97,11 @@ class _RegistrationState extends State<Registration> {
                           phoneController = phone.completeNumber;
                         },
                         initialCountryCode: 'UZ',
-                        onCountryChanged: (country) {
-                          print('Country changed to: ${country.name}');
-                        },
+                        onCountryChanged: (country) {},
                       ),
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.all(5),
-                //   child: Center(
-                //     child: Text(
-                //       message,
-                //       style: TextStyle(fontSize: 25, color: Colors.red),
-                //     ),
-                //   ),
-                // ),
                 Container(
                     height: 50,
                     width: MediaQuery.of(context).size.width,
@@ -126,9 +109,6 @@ class _RegistrationState extends State<Registration> {
                     child: ElevatedButton(
                       child: const Text('Register'),
                       onPressed: () {
-                        print(usernameController);
-                        print(passwordController);
-                        print(phoneController);
                         if (usernameController == '' ||
                             passwordController == "" ||
                             phoneController == '') {
@@ -142,25 +122,24 @@ class _RegistrationState extends State<Registration> {
                                 headers: <String, String>{
                                   "Accept": 'application/json',
                                   'Content-Type':
-                                  'application/json; charset=UTF-8',
+                                      'application/json; charset=UTF-8',
                                 },
                                 body: jsonEncode(<String, String>{
                                   'name': usernameController,
                                   'password': passwordController,
                                   'phone': phoneController,
                                 }));
-
-                            print(response.body);
-                            print(response.statusCode);
                             if (response.statusCode == 200) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>MainPage(name: usernameController) ),
+                                    builder: (context) =>
+                                        MainPage(name: usernameController)),
                               );
                             }
                             return response;
                           }
+
                           createAlbum();
                         }
                       },

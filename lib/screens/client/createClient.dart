@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:merit_app/utils/url.dart';
 
-
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:merit_app/screens/client/clients.dart';
+import 'package:merit_app/utils/url.dart';
 
 class CreateClient extends StatefulWidget {
+  const CreateClient({super.key});
+
   @override
   State<CreateClient> createState() => _CreateClientState();
 }
@@ -40,7 +40,7 @@ class _CreateClientState extends State<CreateClient> {
     DropdownMenuItem<String> buildMenuItem(String item) =>
         DropdownMenuItem<String>(
           value: item,
-          child: Text(item, style: Theme.of(context).textTheme.bodyText1),
+          child: Text(item, style: Theme.of(context).textTheme.bodyLarge),
         );
 
     return MaterialApp(
@@ -50,85 +50,77 @@ class _CreateClientState extends State<CreateClient> {
           child: Column(
             children: [
               Container(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                    top: 45,
-                    bottom: 15,
-                  ),
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Asr Kimya',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
+                margin: const EdgeInsets.only(
+                  top: 45,
+                  bottom: 15,
+                ),
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Asr Kimya',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            width: 45,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: const Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.all(50),
+                  padding: const EdgeInsets.all(50),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       TextField(
                         controller: clientNameController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Client Name',
                         ),
                       ),
-                      SizedBox(height: 30),
-                      Container(
-                        child: Column(
-                          children: [
-                            IntlPhoneField(
-                              decoration: const InputDecoration(
-                                labelText: 'Phone Number',
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(),
-                                ),
+                      const SizedBox(height: 30),
+                      Column(
+                        children: [
+                          IntlPhoneField(
+                            decoration: const InputDecoration(
+                              labelText: 'Phone Number',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(),
                               ),
-                              controller: phoneController,
-                              onChanged: (phone) {
-                                print(phone.completeNumber);
-                              },
-                              initialCountryCode: 'UZ',
-                              onCountryChanged: (country) {
-                                print('Country changed to: ${country.name}');
-                              },
                             ),
-                          ],
-                        ),
+                            controller: phoneController,
+                            onChanged: (phone) {},
+                            initialCountryCode: 'UZ',
+                            onCountryChanged: (country) {},
+                          ),
+                        ],
                       ),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(6),
@@ -161,9 +153,7 @@ class _CreateClientState extends State<CreateClient> {
                         ),
                         onPressed: () {
                           if (clientNameController.text.isEmpty ||
-                              clientNameController.text == null ||
                               phoneController.text == '') {
-                            print("tanlang");
                           } else {
                             Future<http.Response> createClient() async {
                               final response = await http.post(
@@ -177,18 +167,14 @@ class _CreateClientState extends State<CreateClient> {
                                     'region': regionController,
                                     'phone': phoneController.text
                                   }));
-
-                              print(response.body);
-
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ClientList()),
+                                      builder: (context) => const ClientList()),
                                 );
                               }
-
                               return response;
                             }
 
@@ -197,7 +183,7 @@ class _CreateClientState extends State<CreateClient> {
                         },
                         child: Text(
                           'Create Client',
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       )
                     ],

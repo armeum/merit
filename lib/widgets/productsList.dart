@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:merit_app/utils/dimensions.dart';
 
@@ -65,7 +63,7 @@ class _ProductListState extends State<ProductList> {
                       color: Colors.white,
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -73,15 +71,15 @@ class _ProductListState extends State<ProductList> {
                           Text(
                             widget.data[index]['name'],
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.headline1,
+                            style: Theme.of(context).textTheme.displayLarge,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           FittedBox(
                             child: Text(
                               widget.data[index]['code'],
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ),
                         ],
