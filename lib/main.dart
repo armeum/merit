@@ -1,6 +1,9 @@
  import 'package:flutter/material.dart';
+import 'package:merit_app/dashboard/customDashboard.dart';
+import 'package:merit_app/dashboard/dashboard.dart';
 import 'package:merit_app/order/createOrder.dart';
 import 'package:get/get.dart';
+import 'package:merit_app/pages/Login/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +44,7 @@ class MyApp extends StatelessWidget {
 
         ),
       ),
-      home:   const CreateOrder(),
+      home:   customDashboardTwo(),
     );
   }
 }

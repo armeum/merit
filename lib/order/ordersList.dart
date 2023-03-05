@@ -6,14 +6,12 @@ import 'package:merit_app/utils/url.dart';
 
 class OrdersList extends StatefulWidget {
   const OrdersList({super.key});
-
   @override
   State<OrdersList> createState() => _OrdersListState();
 }
 
 class _OrdersListState extends State<OrdersList> {
   var orderList = [];
-
 
   void fetchData() async {
     var response = await http.get(Uri.parse('$platformUrl/all_orders'));
