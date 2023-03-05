@@ -1,6 +1,6 @@
  import 'package:flutter/material.dart';
-import 'package:merit_app/order/createOrder.dart';
 import 'package:get/get.dart';
+import 'package:merit_app/pages/Registration/registeration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 
         ),
       ),
-      home:   const CreateOrder(),
+      home:   const Registration(),
     );
   }
 }

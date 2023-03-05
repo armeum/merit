@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:merit_app/utils/url.dart';
 
-import '../../screens/home/main_Page.dart';
+import '../../screens/home/main_page.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);

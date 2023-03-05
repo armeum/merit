@@ -1,10 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:merit_app/models/category.dart';
-import 'package:merit_app/order/createOrder.dart';
-import 'package:merit_app/screens/client/createClient.dart';
+import 'package:merit_app/order/create_order.dart';
+import 'package:merit_app/screens/client/create_client.dart';
 import 'package:merit_app/widgets/constants.dart';
-import 'package:merit_app/widgets/productsList.dart';
+import 'package:merit_app/widgets/products_list.dart';
 
 import '../utils/dimensions.dart';
 

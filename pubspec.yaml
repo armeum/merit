@@ -35,6 +35,7 @@ dependencies:
   get: ^4.1.4
   dropdown_textfield: ^1.0.8
   intl: ^0.17.0
+  flutter_native_splash: ^2.2.18
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

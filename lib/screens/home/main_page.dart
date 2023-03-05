@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
         const SizedBox(
           height: 35,
         ),
-        Expanded(
+        const Expanded(
           child: SingleChildScrollView(
             child: Categories(),
           ),

@@ -12,16 +12,9 @@ class OrderView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Products'),
       ),
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(products[index].name),
-            subtitle: Text(products[index].code),
-            trailing: Text(products[index].price.toString()),
-          );
-        },
-      ),
+      body: Column(
+        children: [],
+      )
     );
   }
 }
