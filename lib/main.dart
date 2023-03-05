@@ -1,6 +1,6 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:merit_app/pages/Registration/registeration.dart';
+import 'package:merit_app/dashboard/customDashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,14 +14,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Asr Kim-ya",
-
       theme: ThemeData(
         primaryColor: const Color(0xff1C6EAB),
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: const Color.fromARGB(255, 255, 255, 255)),
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
-
           displayLarge: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -37,11 +35,11 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.normal,
             color: Color.fromARGB(255, 255, 255, 255),
           ),
-
-
         ),
       ),
-      home:   const Registration(),
+      home: const customDashboardTwo(),
     );
   }
 }
+
+//ggghh
