@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:merit_app/dashboard/customDashboard.dart';
+import 'package:merit_app/pages/Registration/registration.dart';
+import 'package:merit_app/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const customDashboardTwo(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:merit_app/dashboard/dashboard.dart';
 import 'package:merit_app/models/category.dart';
 import 'package:merit_app/order/create_order.dart';
 import 'package:merit_app/screens/client/create_client.dart';
@@ -105,7 +106,7 @@ class _CategoriesState extends State<Categories> {
       Category(
           id: '1', title: 'Create Client', onPressed: const CreateClient()),
       Category(id: '2', title: 'Create Order', onPressed: const CreateOrder()),
-      Category(id: '3', title: 'Dashboard', onPressed: const CreateOrder()),
+      Category(id: '3', title: 'Dashboard', onPressed: const customDashboard()),
     ];
 
     Matrix4 matrix = Matrix4.identity();
