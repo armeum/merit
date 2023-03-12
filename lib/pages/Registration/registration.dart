@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,15 @@ class _RegistrationState extends State<Registration> {
   var usernameController = '';
   var passwordController = '';
   var phoneController = '';
+  var statusMessage = '';
+  bool _obscureText = true;
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +66,15 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      statusMessage,
+                      style: const TextStyle(color: Colors.red, fontSize: 15),
+                    ),
+                  ),
+                ),
+                Container(
                   padding: const EdgeInsets.all(10),
                   child: TextField(
                     onChanged: (aa) {
@@ -70,16 +89,27 @@ class _RegistrationState extends State<Registration> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: _obscureText,
                     enableSuggestions: false,
                     autocorrect: false,
                     onChanged: (value) {
                       passwordController = value;
                     },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        )),
                   ),
                 ),
                 Container(
@@ -129,6 +159,7 @@ class _RegistrationState extends State<Registration> {
                                   'password': passwordController,
                                   'phone': phoneController,
                                 }));
+
                             if (response.statusCode == 200) {
                               Navigator.push(
                                 context,
@@ -136,6 +167,12 @@ class _RegistrationState extends State<Registration> {
                                     builder: (context) =>
                                         MainPage(name: usernameController)),
                               );
+                            } else {
+                              var r = json.decode(response.body)['message'];
+                              print(r);
+                              setState(() {
+                                statusMessage = r;
+                              });
                             }
                             return response;
                           }

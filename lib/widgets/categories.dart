@@ -191,7 +191,8 @@ class _CategoriesState extends State<Categories> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(categories[index].title,
-                          style: Theme.of(context).textTheme.displayLarge),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
+                            color: Color(0xff1C6EAB))),
                     )),
               ),
             )),

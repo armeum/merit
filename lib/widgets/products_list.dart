@@ -71,7 +71,8 @@ class _ProductListState extends State<ProductList> {
                           Text(
                             widget.data[index]['name'],
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.displayLarge,
+                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold,
+                              color: Color(0xff1C6EAB),),
                           ),
                           const SizedBox(
                             height: 5,
@@ -79,7 +80,8 @@ class _ProductListState extends State<ProductList> {
                           FittedBox(
                             child: Text(
                               widget.data[index]['code'],
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold,
+                                color: Color(0xffa6a5a5),),
                             ),
                           ),
                         ],

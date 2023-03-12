@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/categories.dart';
 
@@ -12,6 +13,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +31,7 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Text('hello'),
               Text(
                 widget.name,
                 style: TextStyle(
