@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:merit_app/pages/Login/login.dart';
 import 'package:merit_app/utils/url.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -144,56 +145,69 @@ class _RegistrationState extends State<Registration> {
                   ),
                 ),
                 Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButton(
-                      child: const Text('Register'),
-                      onPressed: () {
-                        if (usernameController == '' ||
-                            passwordController == "" ||
-                            phoneController == '') {
-                          setState(() {
-                            message = 'Please fill all fields';
-                          });
-                        } else {
-                          Future<http.Response> createAlbum() async {
-                            final response = await http.post(
-                                Uri.parse('$platformUrl/create_user'),
-                                headers: <String, String>{
-                                  "Accept": 'application/json',
-                                  'Content-Type':
-                                      'application/json; charset=UTF-8',
-                                },
-                                body: jsonEncode(<String, String>{
-                                  'name': usernameController,
-                                  'password': passwordController,
-                                  'phone': phoneController,
-                                }));
-                            String token = json.decode(response.body)['user']['name'];
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ElevatedButton(
+                    child: const Text('Register'),
+                    onPressed: () {
+                      if (usernameController == '' ||
+                          passwordController == "" ||
+                          phoneController == '') {
+                        setState(() {
+                          message = 'Please fill all fields';
+                        });
+                      } else {
+                        Future<http.Response> createAlbum() async {
+                          final response = await http.post(
+                              Uri.parse('$platformUrl/create_user'),
+                              headers: <String, String>{
+                                "Accept": 'application/json',
+                                'Content-Type':
+                                    'application/json; charset=UTF-8',
+                              },
+                              body: jsonEncode(<String, String>{
+                                'name': usernameController,
+                                'password': passwordController,
+                                'phone': phoneController,
+                              }));
+                          String token =
+                              json.decode(response.body)['user']['name'];
 
-                            if (response.statusCode == 200) {
-                              await saveToken(token);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        MainPage(name: usernameController)),
-                              );
-                            } else {
-                              var r = json.decode(response.body)['message'];
-                              print(r);
-                              setState(() {
-                                statusMessage = r;
-                              });
-                            }
-                            return response;
+                          if (response.statusCode == 200) {
+                            await saveToken(token);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MainPage(name: usernameController)),
+                            );
+                          } else {
+                            var r = json.decode(response.body)['message'];
+                            print(r);
+                            setState(() {
+                              statusMessage = r;
+                            });
                           }
-
-                          createAlbum();
+                          return response;
                         }
-                      },
-                    ))
+
+                        createAlbum();
+                      }
+                    },
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                    );
+                  },
+                  child: const Text(
+                    "Already have an account",
+                  ),
+                )
               ],
             )
           ],

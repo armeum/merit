@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:merit_app/pages/Registration/registration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +28,11 @@ class _LoginState extends State<Login> {
     await prefs.setString('token', token);
   }
 
-
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
+
   @override
   Widget build(BuildContext context) {
     var appBar = AppBar(
@@ -108,27 +109,6 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                // Container(
-                //   padding:
-                //       const EdgeInsets.only(left: 10, right: 10, bottom: 0),
-                //   child: Column(
-                //     children: [
-                //       IntlPhoneField(
-                //         decoration: const InputDecoration(
-                //           labelText: 'Phone Number',
-                //           border: OutlineInputBorder(
-                //             borderSide: BorderSide(),
-                //           ),
-                //         ),
-                //         onChanged: (phone) {
-                //           phoneController = phone.completeNumber;
-                //         },
-                //         initialCountryCode: 'UZ',
-                //         onCountryChanged: (country) {},
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 TextButton(
                   onPressed: () {},
                   child: const Text(
@@ -136,53 +116,77 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButton(
-                      child: const Text('Login'),
-                      onPressed: () {
-                        Future<http.Response> Login() async {
-                          final response =
-                              await http.post(Uri.parse('$platformUrl/sign_in'),
-                                  headers: <String, String>{
-                                    'Content-Type':
-                                        'application/json; charset=UTF-8',
-                                  },
-                                  body: jsonEncode(<String, String>{
-                                    'username': usernameController.text,
-                                    'password': passwordController.text,
-                                  }));
-                          if (kDebugMode) {
-                            print(response.body);
-                          }
-                          String name = "hhh";
-                          // jsonDecode(response.body)[0]['username'];
-                          String token = json.decode(response.body)['token'];
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: ElevatedButton(
+                    child: const Text('Login'),
+                    onPressed: () {
+                      Future<http.Response> Login() async {
+                        final response =
+                            await http.post(Uri.parse('$platformUrl/sign_in'),
+                                headers: <String, String>{
+                                  'Content-Type':
+                                      'application/json; charset=UTF-8',
+                                },
+                                body: jsonEncode(<String, String>{
+                                  'username': usernameController.text,
+                                  'password': passwordController.text,
+                                }));
+                        if (kDebugMode) {
                           print(response.body);
-                          await saveToken(token);
-                          // print(getToken());
-                          if (response.statusCode == 200) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainPage(
-                                        name: name,
-                                      )),
-                            );
-                          } else {
-                            var r = json.decode(response.body)['message'];
-                            setState(() {
-                              message = r;
-                            });
-                          }
-
-                          return response;
+                        }
+                        // jsonDecode(response.body)[0]['username'];
+                        String token = json.decode(response.body)['token'];
+                        print(response.body);
+                        await saveToken(token);
+                        // print(getToken());
+                        if (response.statusCode == 200) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainPage(
+                                name: usernameController.text,
+                              ),
+                            ),
+                          );
+                        } else {
+                          var r = json.decode(response.body)['message'];
+                          setState(() {
+                            message = r;
+                          });
                         }
 
-                        Login();
+                        return response;
+                      }
+
+                      Login();
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Forgot Password',
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Registration()),
+                        );
                       },
-                    ))
+                      child: const Text(
+                        "Don't have an account",
+                      ),
+                    ),
+                  ],
+                ),
               ],
             )
           ],

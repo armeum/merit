@@ -4,9 +4,12 @@ import 'package:merit_app/dashboard/dashboard.dart';
 import 'package:merit_app/models/category.dart';
 import 'package:merit_app/order/create_order.dart';
 import 'package:merit_app/screens/client/create_client.dart';
+import 'package:merit_app/utils/url.dart';
 import 'package:merit_app/widgets/constants.dart';
 import 'package:merit_app/widgets/products_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 import '../utils/dimensions.dart';
 
@@ -23,6 +26,26 @@ class _CategoriesState extends State<Categories> {
   Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
+  }
+
+  var orderList = [];
+
+  void fetchData() async {
+    var response = await http.get(Uri.parse('$platformUrl/all_orders'));
+    if (response.statusCode == 200) {
+      List all = convert.jsonDecode(response.body);
+      List filtered = [];
+      for (Map<String, dynamic> order in all) {
+        // Do something with currentMap
+        if (order['userId'] == token) {
+          filtered.add(order);
+        }
+      }
+      setState(() {
+        orderList = filtered;
+        print(orderList);
+      });
+    }
   }
 
   final PageController _pageController = PageController(
@@ -53,6 +76,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
+    fetchData();
     getToken();
     _pageController.addListener(() {
       setState(() {
@@ -98,14 +122,90 @@ class _CategoriesState extends State<Categories> {
           height: 20,
         ),
         SizedBox(
-          height: 700,
-          child: ProductList(
-            name: 'hhhh',
-            code: 'qqqq',
-            length: elements.length,
-            data: elements,
+          height: 470,
+          child:
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: orderList == []
+                ? const CircularProgressIndicator(
+              color: Colors.blue,
+            )
+                : ListView.builder(
+              padding: const EdgeInsets.only(top: 20, bottom: 10),
+              itemCount: orderList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.only(
+                    bottom: 10,
+                    left: Dimensions.width20,
+                    right: Dimensions.width20,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 110,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.shopping_cart,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          width: 200,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(Dimensions.radius20),
+                              bottomRight:
+                              Radius.circular(Dimensions.radius20),
+                            ),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    "AMOUNT: ${orderList[index]['amount']}KG",
+                                    style: const TextStyle(fontSize: 20)),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  "DEADLINE: ${orderList[index]['deadline']}",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    "ORDERED: ${orderList[index]['orderedDate']}".substring(0,20),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
-        )
+        ),
       ],
     );
   }
