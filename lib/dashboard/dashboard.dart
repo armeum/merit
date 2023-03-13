@@ -1,136 +1,90 @@
-import 'dart:math';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:http/http.dart' as http;
+import 'package:merit_app/utils/url.dart';
+import 'dart:convert' as convert;
+import 'package:collection/collection.dart';
 
-class customDashboard extends StatefulWidget {
-  const customDashboard({Key? key}) : super(key: key);
-
+class BarChartExample extends StatefulWidget {
   @override
-  State<customDashboard> createState() => _customDashboardState();
+  _BarChartExampleState createState() => _BarChartExampleState();
 }
 
-class _customDashboardState extends State<customDashboard> {
-  late TooltipBehavior _tooltipBehavior;
-  var data = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
+class _BarChartExampleState extends State<BarChartExample> {
+  var orderList = [];
+  List<SalesData> data = [
 
-  List<ChartData> chart_data = [];
+  ];
+  void fetchData() async {
+    var response = await http.get(Uri.parse('$platformUrl/all_orders_for_dashboard'));
+    if (response.statusCode == 200) {
+      var top = json.decode(response.body)['top_sales'];
+      for (MapEntry<String, dynamic> entry in top.entries) {
+        data.add(
+          SalesData(entry.key, entry.value),
+        );
+      }
+      setState(() {
+
+      });
+
+    }
+  }
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    for (String d in data) {
-      chart_data.add(ChartData(d, (Random().nextInt(100) * 100).round()));
-    }
     super.initState();
+    fetchData();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard"),
+        title: const Text('Bar Chart Demo'),
       ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            SizedBox(
-              // width: chart_data.length < 6 ? 400 : 700,
-              width: 420,
-              // height: 600,
-              // height: chart_data.length < 6 ? 400 : 500,
-              child: SfCartesianChart(
-                title: ChartTitle(
-                    text: 'Half yearly sales analysis',
-                    alignment: ChartAlignment.near),
-                legend: Legend(
-                  isVisible: true,
-                  alignment: ChartAlignment.near,
-                ),
-                tooltipBehavior: _tooltipBehavior,
-                palette: const <Color>[
-                  Colors.blue,
-                  Colors.orange,
-                  Colors.brown
-                ],
+      body: Center(
+        child: SafeArea(
 
-                // backgroundColor: Theme.of(context).primaryColor,
-                // Initialize category axis
-                primaryXAxis: CategoryAxis(),
-                series: <ChartSeries>[
-                  // Initialize line series
-                  LineSeries<ChartData, String>(
-                      legendItemText: 'Sales',
-                      dataSource: chart_data,
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y,
-                      dataLabelSettings:
-                          const DataLabelSettings(isVisible: true),
-                      animationDuration: 4000)
-                ],
-              ),
+          child: SfCartesianChart(
+            title: ChartTitle(text: 'Top Sales Chart'),
+            backgroundColor: Colors.transparent,
+            legend: Legend(isVisible: true),
+            tooltipBehavior: TooltipBehavior(
+              enable: true,
+              color: Colors.blue,
+              borderWidth: 2,
+              borderColor: Colors.white,
             ),
-            SizedBox(
-              // width: chart_data.length < 6 ? 400 : 700,
-              width: 420,
-              // height: 600,
-              // height: chart_data.length < 6 ? 400 : 500,
-              child: SfCartesianChart(
-                title: ChartTitle(
-                    text: 'Half yearly sales analysis',
-                    alignment: ChartAlignment.near),
-                legend: Legend(
-                  isVisible: true,
-                  alignment: ChartAlignment.near,
-                ),
-                tooltipBehavior: _tooltipBehavior,
-                palette: const <Color>[
-                  Colors.blue,
-                  Colors.orange,
-                  Colors.brown
-                ],
+            primaryXAxis: CategoryAxis(isVisible: false),
+            primaryYAxis: NumericAxis(
 
-                // backgroundColor: Theme.of(context).primaryColor,
-                // Initialize category axis
-                primaryXAxis: CategoryAxis(),
-                series: <ChartSeries>[
-                  // Initialize line series
-                  LineSeries<ChartData, String>(
-                      legendItemText: 'Sales',
-                      dataSource: chart_data,
-                      xValueMapper: (ChartData data, _) => data.x,
-                      yValueMapper: (ChartData data, _) => data.y,
-                      dataLabelSettings:
-                          const DataLabelSettings(isVisible: true),
-                      animationDuration: 4000)
-                ],
-              ),
             ),
-          ],
+
+            series: <ChartSeries>[
+              ColumnSeries<SalesData, String>(
+                legendIconType: LegendIconType.triangle,
+                legendItemText: "Tap on each of the following to see the chart data",
+                dataSource:data,
+                xValueMapper: (SalesData sales, _) => sales.month,
+                yValueMapper: (SalesData sales, _) => sales.sales,
+                dataLabelSettings: const DataLabelSettings(isVisible: true),
+              )
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
 
-class ChartData {
-  ChartData(this.x, this.y);
+class SalesData {
+  SalesData(this.month, this.sales);
 
-  final String x;
-  final int? y;
+  final String month;
+  final int sales;
 }

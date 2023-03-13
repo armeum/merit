@@ -163,16 +163,15 @@ class _LoginState extends State<Login> {
                           await saveToken(token);
                           // print(getToken());
                           if (response.statusCode == 200) {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => MainPage(
-                            //             name: name,
-                            //           )),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainPage(
+                                        name: name,
+                                      )),
+                            );
                           } else {
                             var r = json.decode(response.body)['message'];
-                            print(r);
                             setState(() {
                               message = r;
                             });

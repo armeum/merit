@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:merit_app/utils/url.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/home/main_page.dart';
 
@@ -24,6 +25,16 @@ class _RegistrationState extends State<Registration> {
   var statusMessage = '';
   bool _obscureText = true;
   TextEditingController _passwordController = TextEditingController();
+
+  Future<void> saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
 
   @override
   void dispose() {
@@ -159,8 +170,10 @@ class _RegistrationState extends State<Registration> {
                                   'password': passwordController,
                                   'phone': phoneController,
                                 }));
+                            String token = json.decode(response.body)['user']['name'];
 
                             if (response.statusCode == 200) {
+                              await saveToken(token);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

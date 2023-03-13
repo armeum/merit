@@ -96,9 +96,7 @@ class _ClientListState extends State<ClientList> {
                                 children: [
                                   Text(
                                     clientList[index]['name'].toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayLarge,
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                   const SizedBox(
                                     height: 5,

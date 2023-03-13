@@ -51,31 +51,33 @@ class _customDashboardTwoState extends State<customDashboardTwo> {
       body: SafeArea(
           child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 400,
-              child: SfCartesianChart(
-                plotAreaBorderWidth: 0,
-                title:
-                    ChartTitle(text: 'Top Two Countries sales 2005 and 2011'),
-                legend: Legend(
-                    isVisible: true,
-                    overflowMode: LegendItemOverflowMode.scroll),
-                primaryXAxis: NumericAxis(
-                    edgeLabelPlacement: EdgeLabelPlacement.shift,
-                    interval: 2,
-                    majorGridLines: const MajorGridLines(width: 0)),
-                primaryYAxis: NumericAxis(
-                    labelFormat: '{value}%',
-                    axisLine: const AxisLine(width: 0),
-                    majorTickLines:
-                        const MajorTickLines(color: Colors.transparent)),
-                series: _getDefaultLineSeries(),
-                tooltipBehavior: TooltipBehavior(enable: true),
+        child: SafeArea(
+          child: Row(
+            children: [
+              SizedBox(
+                width: 400,
+                child: SfCartesianChart(
+                  plotAreaBorderWidth: 0,
+                  title:
+                      ChartTitle(text: 'Top Two Countries sales 2005 and 2011'),
+                  legend: Legend(
+                      isVisible: true,
+                      overflowMode: LegendItemOverflowMode.scroll),
+                  primaryXAxis: NumericAxis(
+                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                      interval: 2,
+                      majorGridLines: const MajorGridLines(width: 0)),
+                  primaryYAxis: NumericAxis(
+                      labelFormat: '{value}%',
+                      axisLine: const AxisLine(width: 0),
+                      majorTickLines:
+                          const MajorTickLines(color: Colors.transparent)),
+                  series: _getDefaultLineSeries(),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       )),
     );

@@ -6,6 +6,7 @@ import 'package:merit_app/order/create_order.dart';
 import 'package:merit_app/screens/client/create_client.dart';
 import 'package:merit_app/widgets/constants.dart';
 import 'package:merit_app/widgets/products_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/dimensions.dart';
 
@@ -17,6 +18,13 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  String token = '';
+
+  Future<void> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+  }
+
   final PageController _pageController = PageController(
     initialPage: 0,
     viewportFraction: 0.8,
@@ -45,6 +53,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
+    getToken();
     _pageController.addListener(() {
       setState(() {
         _currentPageValue = _pageController.page!;
@@ -105,8 +114,9 @@ class _CategoriesState extends State<Categories> {
     final List<Category> categories = [
       Category(
           id: '1', title: 'Create Client', onPressed: const CreateClient()),
-      Category(id: '2', title: 'Create Order', onPressed: const CreateOrder()),
-      Category(id: '3', title: 'Dashboard', onPressed: const customDashboard()),
+      Category(
+          id: '2', title: 'Create Order', onPressed:  CreateOrder( username: token,)),
+      Category(id: '3', title: 'Dashboard', onPressed:  BarChartExample()),
     ];
 
     Matrix4 matrix = Matrix4.identity();
@@ -191,8 +201,10 @@ class _CategoriesState extends State<Categories> {
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(categories[index].title,
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
-                            color: Color(0xff1C6EAB))),
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff1C6EAB))),
                     )),
               ),
             )),

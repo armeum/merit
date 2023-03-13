@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:merit_app/utils/Token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/categories.dart';
 
 class MainPage extends StatefulWidget {
   final String name;
-
   const MainPage({super.key, required this.name});
-
   @override
   State<MainPage> createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  Future<String?> getToken() async {
+  String text ='click me to see the token';
+  String token = '';
+  Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    token = prefs.getString('token')!;
   }
+
+  @override
+  void initState() {
+    super.initState();
+    getToken();
+    // Perform initialization tasks here
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +40,6 @@ class _MainPageState extends State<MainPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('hello'),
               Text(
                 widget.name,
                 style: TextStyle(
@@ -62,6 +70,7 @@ class _MainPageState extends State<MainPage> {
         const SizedBox(
           height: 35,
         ),
+
         const Expanded(
           child: SingleChildScrollView(
             child: Categories(),

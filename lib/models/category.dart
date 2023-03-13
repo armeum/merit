@@ -8,6 +8,6 @@ class Category with ChangeNotifier {
   Category({
     required this.id,
     required this.title,
-    required this.onPressed
+    required this.onPressed,
   });
 }

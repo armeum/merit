@@ -9,7 +9,8 @@ import 'package:merit_app/utils/url.dart';
 import 'package:merit_app/widgets/constants.dart';
 
 class CreateOrder extends StatefulWidget {
-  const CreateOrder({super.key});
+  final String username ;
+  const CreateOrder({super.key, required this.username});
 
   @override
   State<CreateOrder> createState() => _CreateOrderState();
@@ -68,6 +69,7 @@ class _CreateOrderState extends State<CreateOrder> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+
                 TextField(
                   controller: dateInput,
                   //editing controller of this TextField
@@ -323,6 +325,7 @@ class _CreateOrderState extends State<CreateOrder> {
                                   'deadline': dateInput.text,
                                   'productCode': productValue as String,
                                   'clientName': selectedValue as String,
+                                  'userId':widget.username,
                                 }));
 
                         if (response.statusCode == 200 ||
@@ -330,7 +333,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const OrdersList()),
+                                builder: (context) =>  OrdersList(currentUser: widget.username,)),
                           );
                         }
                         return response;
