@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -14,22 +15,19 @@ class BarChartExample extends StatefulWidget {
 
 class _BarChartExampleState extends State<BarChartExample> {
   var orderList = [];
-  List<SalesData> data = [
+  List<SalesData> data = [];
 
-  ];
   void fetchData() async {
-    var response = await http.get(Uri.parse('$platformUrl/all_orders_for_dashboard'));
+    var response =
+        await http.get(Uri.parse('$platformUrl/all_orders_for_dashboard'));
     if (response.statusCode == 200) {
-      var top = json.decode(response.body)['top_sales'];
-      for (MapEntry<String, dynamic> entry in top.entries) {
-        data.add(
-          SalesData(entry.key, entry.value),
-        );
+      var top = json.decode(response.body)['total_sold'];
+      print(top);
+      for (var i = 0; i < top.length; i++) {
+        data.add(SalesData(top[i]['product_type'], top[i]['total_sold']));
       }
-      setState(() {
 
-      });
-
+      setState(() {});
     }
   }
 
@@ -39,8 +37,6 @@ class _BarChartExampleState extends State<BarChartExample> {
     fetchData();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +45,6 @@ class _BarChartExampleState extends State<BarChartExample> {
       ),
       body: Center(
         child: SafeArea(
-
           child: SfCartesianChart(
             title: ChartTitle(text: 'Top Sales Chart'),
             backgroundColor: Colors.transparent,
@@ -61,15 +56,13 @@ class _BarChartExampleState extends State<BarChartExample> {
               borderColor: Colors.white,
             ),
             primaryXAxis: CategoryAxis(isVisible: false),
-            primaryYAxis: NumericAxis(
-
-            ),
-
+            primaryYAxis: NumericAxis(),
             series: <ChartSeries>[
               ColumnSeries<SalesData, String>(
                 legendIconType: LegendIconType.triangle,
-                legendItemText: "Tap on each of the following to see the chart data",
-                dataSource:data,
+                legendItemText:
+                    "Tap on each of the following to see the chart data",
+                dataSource: data,
                 xValueMapper: (SalesData sales, _) => sales.month,
                 yValueMapper: (SalesData sales, _) => sales.sales,
                 dataLabelSettings: const DataLabelSettings(isVisible: true),
