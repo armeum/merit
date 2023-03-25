@@ -1,7 +1,8 @@
 import 'dart:convert' as convert;
+
 import 'package:flutter/material.dart';
-import 'package:merit_app/utils/dimensions.dart';
 import 'package:http/http.dart' as http;
+import 'package:merit_app/utils/dimensions.dart';
 import 'package:merit_app/utils/url.dart';
 
 class OrdersList extends StatefulWidget {
@@ -27,11 +28,6 @@ class _OrdersListState extends State<OrdersList> {
           filtered.add(order);
         }
       }
-      // print(filtered);
-      print('----------------------------------------------------------------');
-      print(response.body);
-      print('----------------------------------------------------------------');
-
       setState(() {
         orderList = filtered;
       });
@@ -48,19 +44,13 @@ class _OrdersListState extends State<OrdersList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        backgroundColor: const Color(0xff1C6EAB),
         title: Text(
-         "User: ${widget.currentUser}",
+          "${widget.currentUser}",
           style: const TextStyle(
             fontSize: 17,
           ),
         ),
-        actions: [
-          TextButton(
-              onPressed: () => setState(() {}), child: const Text("press me")),
-          TextButton(
-              onPressed: () => setState(() {}), child: const Text("Me also")),
-        ],
       ),
       body: Container(
         color: Colors.white,
@@ -87,7 +77,7 @@ class _OrdersListState extends State<OrdersList> {
                           height: 110,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context).primaryColor,
+                            color: const Color(0xff1C6EAB),
                           ),
                           child: const Center(
                             child: Icon(
@@ -116,21 +106,22 @@ class _OrdersListState extends State<OrdersList> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                      "AMOUNT: ${orderList[index]['amount']}KG",
+                                      "Midori: ${orderList[index]['amount']}kg",
                                       style: const TextStyle(fontSize: 20)),
                                   const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    "DEADLINE: ${orderList[index]['deadline']}",
-                                    style: TextStyle(fontSize: 15),
+                                    "Zakaz kelish kuni: ${orderList[index]['deadline']}",
+                                    style: const TextStyle(fontSize: 15),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      "ORDERED: ${orderList[index]['orderedDate']}".substring(0,20),
-                                      style: TextStyle(fontSize: 15),
-                                    ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Zakaz kuni: ${orderList[index]['orderedDate']}"
+                                        .substring(0, 28),
+                                    style: const TextStyle(fontSize: 15),
                                   )
                                 ],
                               ),

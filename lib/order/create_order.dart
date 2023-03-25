@@ -57,8 +57,8 @@ class _CreateOrderState extends State<CreateOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: const Text("Create Order"),
+        backgroundColor:  const Color(0xff1C6EAB),
+        title: const Text("Zakaz qilish"),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -75,7 +75,7 @@ class _CreateOrderState extends State<CreateOrder> {
                   //editing controller of this TextField
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: "Enter Date", //label text of field
+                    labelText: "Zakaz kelish kuni", //label text of field
                     suffixIcon: Icon(Icons.calendar_today), //icon of text field
                   ),
                   readOnly: true,
@@ -109,7 +109,7 @@ class _CreateOrderState extends State<CreateOrder> {
                   decoration: const InputDecoration(
                     suffixIcon: Icon(Icons.scale),
                     border: OutlineInputBorder(),
-                    labelText: 'Amount',
+                    labelText: 'Miqdori / kg',
                   ),
                   keyboardType: TextInputType.number,
                 ),
@@ -132,7 +132,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                           Expanded(
                             child: Text(
-                              'Clients',
+                              'Kliyentlar',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -226,7 +226,7 @@ class _CreateOrderState extends State<CreateOrder> {
                           ),
                           Expanded(
                             child: Text(
-                              'Products',
+                              'Productlar',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -307,7 +307,7 @@ class _CreateOrderState extends State<CreateOrder> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor,
+                      const Color(0xff1C6EAB),
                     ),
                   ),
                   onPressed: () {
@@ -342,9 +342,13 @@ class _CreateOrderState extends State<CreateOrder> {
                       createOrder();
                     }
                   },
-                  child: Text(
-                    'Order',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  child: const Text(
+                    'Zakaz qilish',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
               ],

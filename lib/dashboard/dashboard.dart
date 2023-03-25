@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:http/http.dart' as http;
 import 'package:merit_app/utils/url.dart';
-import 'dart:convert' as convert;
-import 'package:collection/collection.dart';
 
 class BarChartExample extends StatefulWidget {
+  const BarChartExample({super.key});
+
   @override
   _BarChartExampleState createState() => _BarChartExampleState();
 }
@@ -22,7 +21,6 @@ class _BarChartExampleState extends State<BarChartExample> {
         await http.get(Uri.parse('$platformUrl/all_orders_for_dashboard'));
     if (response.statusCode == 200) {
       var top = json.decode(response.body)['total_sold'];
-      print(top);
       for (var i = 0; i < top.length; i++) {
         data.add(SalesData(top[i]['product_type'], top[i]['total_sold']));
       }
@@ -42,6 +40,8 @@ class _BarChartExampleState extends State<BarChartExample> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bar Chart Demo'),
+        backgroundColor: const Color(0xff1C6EAB),
+
       ),
       body: Center(
         child: SafeArea(

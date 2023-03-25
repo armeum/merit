@@ -9,7 +9,6 @@ class customDashboardTwo extends StatefulWidget {
 }
 
 class _customDashboardTwoState extends State<customDashboardTwo> {
-  late TooltipBehavior _tooltipBehavior;
   var data = [
     "Jan",
     "Feb",
@@ -27,7 +26,6 @@ class _customDashboardTwoState extends State<customDashboardTwo> {
 
   @override
   void initState() {
-    _tooltipBehavior = TooltipBehavior(enable: true);
     chartData = <_ChartData>[
       _ChartData(2005, 21, 28),
       _ChartData(2006, 24, 44),
@@ -47,6 +45,7 @@ class _customDashboardTwoState extends State<customDashboardTwo> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dashboard"),
+        backgroundColor: const Color(0xff1C6EAB),
       ),
       body: SafeArea(
           child: SingleChildScrollView(

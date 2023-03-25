@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -69,7 +68,7 @@ class _RegistrationState extends State<Registration> {
                   padding: const EdgeInsets.all(10),
                   child: Center(
                     child: Text(
-                      'Sign In',
+                      'Registratsiya',
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge
@@ -94,7 +93,7 @@ class _RegistrationState extends State<Registration> {
                     },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Username',
+                      labelText: 'Ism',
                     ),
                   ),
                 ),
@@ -109,7 +108,7 @@ class _RegistrationState extends State<Registration> {
                     },
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Password',
+                        labelText: 'Parol',
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -118,8 +117,8 @@ class _RegistrationState extends State<Registration> {
                           },
                           icon: Icon(
                             _obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         )),
                   ),
@@ -130,7 +129,7 @@ class _RegistrationState extends State<Registration> {
                     children: [
                       IntlPhoneField(
                         decoration: const InputDecoration(
-                          labelText: 'Phone Number',
+                          labelText: 'Telefon raqam',
                           border: OutlineInputBorder(
                             borderSide: BorderSide(),
                           ),
@@ -149,13 +148,16 @@ class _RegistrationState extends State<Registration> {
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ElevatedButton(
-                    child: const Text('Register'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(const Color(0xff1C6EAB)),
+                    ),
+                    child: const Text('Registratsiya'),
                     onPressed: () {
                       if (usernameController == '' ||
                           passwordController == "" ||
                           phoneController == '') {
                         setState(() {
-                          message = 'Please fill all fields';
+                          message = "Iltimos hammasini to'ldiring";
                         });
                       } else {
                         Future<http.Response> createAlbum() async {
@@ -184,7 +186,6 @@ class _RegistrationState extends State<Registration> {
                             );
                           } else {
                             var r = json.decode(response.body)['message'];
-                            print(r);
                             setState(() {
                               statusMessage = r;
                             });
@@ -205,7 +206,10 @@ class _RegistrationState extends State<Registration> {
                     );
                   },
                   child: const Text(
-                    "Already have an account",
+                    "Registratsiyadan o'tganmisiz?",
+                    style: TextStyle(
+                      color: Color(0xff1C6EAB),
+                    ),
                   ),
                 )
               ],

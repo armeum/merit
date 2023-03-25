@@ -34,12 +34,7 @@ class _ClientListState extends State<ClientList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          TextButton(
-              onPressed: () => setState(() {}), child: const Text("press me")),
-          TextButton(
-              onPressed: () => setState(() {}), child: const Text("Me also")),
-        ],
+        backgroundColor: const Color(0xff1C6EAB),
       ),
       body: Container(
         color: Colors.white,
@@ -66,7 +61,7 @@ class _ClientListState extends State<ClientList> {
                           height: 110,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context).primaryColor,
+                            color: const Color(0xff1C6EAB),
                           ),
                           child: const Center(
                             child: Icon(
@@ -96,15 +91,18 @@ class _ClientListState extends State<ClientList> {
                                 children: [
                                   Text(
                                     clientList[index]['name'].toString(),
-                                    style: TextStyle(fontSize: 20),
+                                    style: const TextStyle(fontSize: 20),
                                   ),
                                   const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
                                     clientList[index]['region'].toString(),
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: Color.fromARGB(255, 89, 88, 88),
+                                    ),
                                   ),
                                 ],
                               ),

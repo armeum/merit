@@ -58,12 +58,12 @@ class _CreateClientState extends State<CreateClient> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Asr Kimya',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Color(0xff1C6EAB),
                       ),
                     ),
                     Column(
@@ -73,7 +73,7 @@ class _CreateClientState extends State<CreateClient> {
                           height: 45,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                            color: Theme.of(context).primaryColor,
+                            color: const Color(0xff1C6EAB),
                           ),
                           child: const Icon(
                             Icons.search,
@@ -148,7 +148,7 @@ class _CreateClientState extends State<CreateClient> {
                       ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor,
+                            const Color(0xff1C6EAB),
                           ),
                         ),
                         onPressed: () {
@@ -181,9 +181,13 @@ class _CreateClientState extends State<CreateClient> {
                             createClient();
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Create Client',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                          ),
                         ),
                       )
                     ],
